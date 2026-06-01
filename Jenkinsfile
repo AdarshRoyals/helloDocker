@@ -5,7 +5,9 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/AdarshRoyals/helloDocker.git'
+                git branch: 'main',
+                url:
+                    'https://github.com/AdarshRoyals/helloDocker.git'
             }
         }
 
