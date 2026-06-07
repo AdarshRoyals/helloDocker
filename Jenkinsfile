@@ -28,15 +28,22 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f deploymentsvc.yaml'
-                sh 'kubectl rollout restart deployment/hellodocker-deployment'
+                sh '''
+                export KUBECONFIG=/home/jenkins/.kube/config 
+                cd /var/jenkins_home/workspace/Automated
+                kubectl apply -f deploymentsvc.yaml --validate=false
+                kubectl rollout restart deployment/hellodocker-deployment
+                '''
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                sh 'kubectl get pods'
-                sh 'kubectl get svc'
+                sh '''
+                export KUBECONFIG=/home/jenkins/.kube/config 
+                kubectl get pods
+                kubectl get svc
+                '''
             }
         }
     }
